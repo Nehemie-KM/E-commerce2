@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <header class="header">
+   
+
+    <main>
+      <header class="header">
       <nav>
         <div class="aligner">
           <a href="#">
@@ -35,8 +38,6 @@
         </div>
       </nav>
     </header>
-
-    <main>
       <section class="hero">
         <div class="hero-content">
           <h1>Bienvenue chez HyperProt LE SITE pour les sportifs d'exeptions</h1>
@@ -73,9 +74,7 @@
           <p>"Livraison rapide et service client impeccable !" - Marie S.</p>
         </div>
       </section>
-    </main>
-
-    <footer>
+      <footer>
       <div class="alligne">
         <div class="footer-links">
           <a href="#">Mentions légales</a>
@@ -92,6 +91,9 @@
         </div>
       </div>
     </footer>
+    </main>
+
+
   </div>
 </template>
 <script>
@@ -100,49 +102,72 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      searchTerm: '',
-      products: [],
-      cart: [],
+      searchTerm: '', // Terme de recherche lié à l'input
+      // Liste des produits avec quelques produits par défaut
+      products: [
+  {
+    name: 'Créatine',
+    category: 'Masse Musculaire',
+    description: "Aide à la prise de masse",
+    price: 25.99,
+    img: './assets/img/creatine.jpg' // Assure-toi que l'image se trouve ici
+  },
+  {
+    name: 'Protéine',
+    category: 'Nutrition',
+    description: "Les meilleurs sur le marché",
+    price: 34.99,
+    img: './assets/img/caddie.png'
+  },
+  {
+    name: 'BCAA',
+    category: 'Récupération',
+    description: "Le meilleur moyen de récupération",
+    price: 19.99,
+    img: './assets/img/bcaa.png'
+  },
+
+],
+      cart: [] // Panier initialement vide
     };
   },
   computed: {
+    // Propriété calculée pour filtrer les produits
     filteredProducts() {
       return this.products.filter(product => {
         const searchTermLower = this.searchTerm.toLowerCase();
-        return (
-          product.name.toLowerCase().includes(searchTermLower) ||
-          product.category.toLowerCase().includes(searchTermLower)
-        );
+        return product.name.toLowerCase().includes(searchTermLower) ||
+               product.category.toLowerCase().includes(searchTermLower);
       });
     },
   },
   methods: {
+    // Fonction pour récupérer les produits depuis l'API
     async fetchProducts() {
       try {
         const response = await axios.get('http://localhost:3000/api/products');
-        this.products = response.data;
+        // Ajoute les produits récupérés de l'API à ceux par défaut
+        this.products = [...this.products, ...response.data];
       } catch (error) {
         console.error('Erreur lors de la récupération des produits:', error);
       }
     },
-    async addToCart(product) {
-      try {
-        await axios.post('http://localhost:3000/api/cart', product);
-        this.cart.push(product);
-        alert(`${product.name} a été ajouté au panier`);
-      } catch (error) {
-        console.error('Erreur lors de l\'ajout au panier:', error);
-      }
+    // Ajouter un produit au panier
+    addToCart(product) {
+      this.cart.push(product);
+      alert(`${product.name} a été ajouté au panier`);
     },
+    // Rediriger vers la page de connexion
     goToLogin() {
       this.$router.push("/login");
     },
+    // Rediriger vers la page du panier
     goToCart() {
       this.$router.push("/cart");
     },
   },
   mounted() {
-    this.fetchProducts();
+    this.fetchProducts(); // Récupérer les produits lors du montage du composant
   },
 };
 </script>
