@@ -1,53 +1,70 @@
 <template>
   <div id="app">
-   
-
     <main>
       <header class="header">
-      <nav>
-        <div class="aligner">
-          <a href="#">
-            <img class="logo" src="./assets/img/HyperPro2.png" alt="Logo HYPERprot" />
-          </a>
+        <nav>
+          <div class="aligner">
+            <a href="#">
+              <img
+                class="logo"
+                src="./assets/img/HyperPro2.png"
+                alt="Logo HYPERprot"
+              />
+            </a>
 
-          <div class="alligne" id="loupe">
-            <img src="./assets/img/loupe (1).png" alt="Search Icon" class="minini gauche" />
-            <form action="">
-              <div id="search">
-                <input
-                  id="name"
-                  type="search"
-                  v-model="searchTerm"
-                  required
-                  placeholder="Rechercher..."
-                />
-                <label for="name"></label>
-              </div>
-            </form>
-          </div>
+            <div class="alligne" id="loupe">
+              <img
+                src="./assets/img/loupe (1).png"
+                alt="Search Icon"
+                class="minini gauche"
+              />
+              <form action="">
+                <div id="search">
+                  <input
+                    id="name"
+                    type="search"
+                    v-model="searchTerm"
+                    required
+                    placeholder="Rechercher..."
+                  />
+                  <label for="name"></label>
+                </div>
+              </form>
+            </div>
 
-          <div class="nav-links">
-            <a href="#">Accueil</a>
-            <a href="#">Produits</a>
+            <div class="nav-links">
+              <a href="#">Accueil</a>
+              <a href="#">Produits</a>
+            </div>
+            <div class="cart-btn">
+              <button @click="goToCart">
+                Voir le panier ({{ cart.length }})
+              </button>
+            </div>
+<router-link to="login.vue">
+            <button @click="goToLogin">Login</button></router-link>
           </div>
-          <div class="cart-btn">
-            <button @click="goToCart">Voir le panier ({{ cart.length }})</button>
-          </div>
-
-          <button @click="goToLogin">Login</button>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
       <section class="hero">
         <div class="hero-content">
-          <h1>Bienvenue chez HyperProt LE SITE pour les sportifs d'exeptions</h1>
-          <p>Tous les produits que tu recherches t'attendent ici, alors n'attends pas pour les commander.</p>
+          <h1>
+            Bienvenue chez HyperProt LE SITE pour les sportifs d'exeptions
+          </h1>
+          <p>
+            Tous les produits que tu recherches t'attendent ici, alors n'attends
+            pas pour les commander.
+          </p>
           <a href="#shop" class="btn">Achetez maintenant</a>
         </div>
       </section>
 
       <div class="product-container">
-        <div v-for="(product, index) in filteredProducts" :key="index" class="product-card">
+        <div
+          v-for="(product, index) in filteredProducts"
+          :key="index"
+          class="product-card"
+        >
           <img :src="product.image" :alt="product.name" width="200" />
           <h2>{{ product.name }}</h2>
           <p>{{ product.category }}</p>
@@ -61,7 +78,7 @@
         <div class="promotion-banner">
           <h2>Offre Spéciale ! - 20% sur toute la boutique</h2>
           <p>Utilisez le code PROMO20 à la caisse.</p>
-          <a href="#shop" class="btn">Shoppez maintenant</a>
+        
         </div>
       </section>
 
@@ -75,112 +92,103 @@
         </div>
       </section>
       <footer>
-      <div class="alligne">
-        <div class="footer-links">
-          <a href="#">Mentions légales</a>
-          <a href="#">Politique de confidentialité</a>
-          <a href="#">Conditions de vente</a>
-        </div>
-        <div class="footer-contact">
-          <p>Contactez-nous : contact@monsite.com</p>
-          <p>Suivez-nous sur :</p>
-          <div class="social-media">
-            <a href="#"><img src="#" alt="Facebook"></a>
-            <a href="#"><img src="#" alt="Twitter"></a>
+        <div class="alligne">
+          <div class="footer-links">
+            <a href="#">Mentions légales</a>
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Conditions de vente</a>
+          </div>
+          <div class="footer-contact">
+            <p>Contactez-nous : contact@monsite.com</p>
+            <p>Suivez-nous sur :</p>
+            <div class="social-media">
+              <a href="#"><img src="#" alt="Facebook" /></a>
+              <a href="#"><img src="#" alt="Twitter" /></a>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
     </main>
-
-
   </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
-      searchTerm: '', // Terme de recherche lié à l'input
-      // Liste des produits avec quelques produits par défaut
+      searchTerm: "",
       products: [
-  {
-    name: 'Créatine',
-    category: 'Masse Musculaire',
-    description: "Aide à la prise de masse",
-    price: 25.99,
-    img: './assets/img/creatine.jpg' // Assure-toi que l'image se trouve ici
-  },
-  {
-    name: 'Protéine',
-    category: 'Nutrition',
-    description: "Les meilleurs sur le marché",
-    price: 34.99,
-    img: './assets/img/caddie.png'
-  },
-  {
-    name: 'BCAA',
-    category: 'Récupération',
-    description: "Le meilleur moyen de récupération",
-    price: 19.99,
-    img: './assets/img/bcaa.png'
-  },
-
-],
-      cart: [] // Panier initialement vide
+        {
+          name: "Créatine",
+          category: "Masse Musculaire",
+          description: "Aide à la prise de masse",
+          price: 25.99,
+          img: "./assets/img/creatine.jpg",
+        },
+        {
+          name: "Protéine",
+          category: "Nutrition",
+          description: "Les meilleurs sur le marché",
+          price: 34.99,
+          img: "./assets/img/caddie.png",
+        },
+        {
+          name: "BCAA",
+          category: "Récupération",
+          description: "Le meilleur moyen de récupération",
+          price: 19.99,
+          img: "./assets/img/bcaa.png",
+        },
+      ],
+      cart: [],
     };
   },
   computed: {
-    // Propriété calculée pour filtrer les produits
     filteredProducts() {
-      return this.products.filter(product => {
+      return this.products.filter((product) => {
         const searchTermLower = this.searchTerm.toLowerCase();
-        return product.name.toLowerCase().includes(searchTermLower) ||
-               product.category.toLowerCase().includes(searchTermLower);
+        return (
+          product.name.toLowerCase().includes(searchTermLower) ||
+          product.category.toLowerCase().includes(searchTermLower)
+        );
       });
     },
   },
   methods: {
-    // Fonction pour récupérer les produits depuis l'API
     async fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:3000/api/products');
-        // Ajoute les produits récupérés de l'API à ceux par défaut
+        const response = await axios.get("http://localhost:3000/api/products");
         this.products = [...this.products, ...response.data];
       } catch (error) {
-        console.error('Erreur lors de la récupération des produits:', error);
+        console.error("Erreur lors de la récupération des produits:", error);
       }
     },
-    // Ajouter un produit au panier
     addToCart(product) {
       this.cart.push(product);
       alert(`${product.name} a été ajouté au panier`);
     },
-    // Rediriger vers la page de connexion
     goToLogin() {
       this.$router.push("/login");
     },
-    // Rediriger vers la page du panier
     goToCart() {
       this.$router.push("/cart");
     },
   },
   mounted() {
-    this.fetchProducts(); // Récupérer les produits lors du montage du composant
+    this.fetchProducts();
   },
 };
 </script>
-
-
 
 <style>
 /* Reset CSS */
 * {
   margin: 0;
   padding: 0;
-  background-color: #333
+  background-color: #333;
 }
+
 
 #app {
   padding: 0; /* Suppression du padding */
@@ -195,7 +203,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 
 .aligner {
   display: flex;
@@ -222,7 +229,7 @@ body {
   padding: 10px 15px;
   width: 40vw; /* Largeur fixe, ajustable */
   font-size: 1rem;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   outline: none;
   transition: all 0.3s ease;
   color: #333;
@@ -252,7 +259,7 @@ h2 {
 
 .nav-links {
   display: flex;
-  gap: 6vw  ; /* Espace entre les liens de navigation */
+  gap: 6vw; /* Espace entre les liens de navigation */
   margin-left: 6vw; /* Ajuste l'espace entre le logo et "Accueil" */
   margin-right: 2vw;
 }
@@ -282,7 +289,7 @@ h2 {
 
 button {
   background-color: #cba45f;
-  border: 2px  #f9f7cd;
+  border: 2px #f9f7cd;
   color: #f9f7cd;
   padding: 8px 16px;
   border-radius: 15px;
@@ -312,7 +319,6 @@ button:hover {
 .cart-btn:hover {
   transform: scale(1.1);
 }
-
 
 /* Hero Section */
 .hero {
@@ -359,7 +365,6 @@ button:hover {
   gap: 30px;
   justify-content: space-around;
   padding: 50px 20px;
- 
 }
 
 /* Carte produit */
@@ -387,7 +392,7 @@ button:hover {
 .product-card p,
 .product-card .price {
   color: #cba45f; /* Couleur or */
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 /* Style pour le bouton */
@@ -430,7 +435,10 @@ button:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
-.hero, .promotions, .testimonials, footer {
+.hero,
+.promotions,
+.testimonials,
+footer {
   color: #cba45f; /* Couleur or */
 }
 
@@ -439,7 +447,7 @@ button:hover {
 .product-card .price {
   background-color: transparent; /* Pas de fond noir */
   color: #cba45f; /* Couleur du texte en or */
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 .product-card h2,
 .product-card p {
@@ -460,7 +468,6 @@ footer a:hover {
 }
 
 footer {
- 
   color: #cba45f;
   padding: 20px;
   text-align: center;
@@ -469,5 +476,4 @@ footer {
   bottom: 0;
   left: 0;
 }
-
 </style>
